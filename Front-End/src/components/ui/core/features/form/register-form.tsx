@@ -40,7 +40,7 @@ const RegisterForm = ({ form, isPending }: componentProps) => {
           )}
         </form.AppField>
       </FieldGroup>
-      <FieldGroup className="mb-4 gap-4 [&_input]:text-xs [&_input]:sm:text-sm">
+      <FieldGroup className="mb-6 gap-4 [&_input]:text-xs [&_input]:sm:text-sm">
         <form.AppField name="password">
           {(field) => (
             <field.Input
