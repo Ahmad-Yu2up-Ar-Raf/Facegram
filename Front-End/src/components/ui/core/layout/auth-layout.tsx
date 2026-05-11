@@ -14,6 +14,7 @@ import { LogoAdaptive } from "../../fragments/icons/logo-app"
 
 import { cn } from "@/lib/utils"
 import { Link } from "react-router-dom"
+import { DecorIcon } from "../../fragments/icons/decor-icon"
 
 type AuthLayoutProps = {
   children?: React.ReactNode
@@ -83,6 +84,8 @@ export function AuthLayout({
 
         <div className="relative my-8 flex size-full flex-col gap-4 pt-9 pb-13">
           <FullWidthDivider position="top" />
+          <DecorIcon className="left-0 z-50" position="top-left" />
+          <DecorIcon className="rigth-0 z-50" position="top-right" />
           {children}
           {/* <Button className="w-full" type="button" variant="outline">
             <GoogleIcon data-icon="inline-start" />
@@ -105,6 +108,8 @@ export function AuthLayout({
               Continue With Email
             </Button>
           </form> */}
+          <DecorIcon className="left-0 z-50" position="bottom-left" />
+          <DecorIcon className="rigth-0 z-50" position="bottom-right" />
           <FullWidthDivider position="bottom" />
         </div>
 
