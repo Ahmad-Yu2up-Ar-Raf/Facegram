@@ -1,26 +1,18 @@
-import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react"
+import { type IconSvgElement } from "@hugeicons/react"
 import {
-  DashboardSquare01Icon,
-  Analytics02Icon,
-  Briefcase02Icon,
-  UserMultipleIcon,
-  Plug01Icon,
-  Key01Icon,
   Settings01Icon,
-  Navigation03Icon,
-  HelpCircleIcon,
-  BookOpen01Icon,
-  Search,
-  Home01FreeIcons,
   Notification,
   BubbleChatIcon,
-  Bookmark01FreeIcons,
   Bookmark02FreeIcons,
   User,
-  Home03Icon,
   Home04Icon,
   DiscoverCircleIcon,
   Note05FreeIcons,
+  Search,
+  Navigation03Icon,
+  HelpCircleIcon,
+  BookOpen01Icon,
+  Hamburger,
 } from "@hugeicons/core-free-icons"
 
 export type SidebarNavItem = {
@@ -38,7 +30,7 @@ export type SidebarNavGroup = {
 
 export const navGroups: SidebarNavGroup[] = [
   {
-    // label: "Product",
+    label: "Pages",
     items: [
       {
         title: "Home",
@@ -49,23 +41,15 @@ export const navGroups: SidebarNavGroup[] = [
       {
         title: "Explore",
         url: "/explore",
-        icon: DiscoverCircleIcon,
+        icon: Search,
       },
-      {
-        title: "Todos",
-        url: "/todos",
-        icon: Note05FreeIcons,
-      },
+
       {
         title: "Notification",
         url: "/notification",
         icon: Notification,
       },
-      {
-        title: "Chat",
-        url: "/chat",
-        icon: BubbleChatIcon,
-      },
+
       {
         title: "Bookmarks",
         url: "/bookmarks",
@@ -79,41 +63,45 @@ export const navGroups: SidebarNavGroup[] = [
     ],
   },
   {
-    // label: "",
+    label: "App",
     items: [
       {
-        title: "Settings",
-        url: "#/settings",
-        icon: Settings01Icon,
+        title: "Todos",
+        url: "/todos",
+        icon: Note05FreeIcons,
+      },
+
+      {
+        title: "Chat",
+        url: "/chat",
+        icon: BubbleChatIcon,
       },
     ],
   },
+  // {
+  //   label: "",
+  //   items: [
+  //     {
+  //       title: "Settings",
+  //       url: "#/settings",
+  //       icon: Settings01Icon,
+  //     },
+  //   ],
+  // },
 ]
 
-// export const footerNavLinks: SidebarNavItem[] = [
-//   {
-//     title: "Feedback",
-//     url: "#/feedback",
-//     icon: (
-//       <HugeiconsIcon
-//         icon={Navigation03Icon}
-//         strokeWidth={2}
-//         data-icon="inline-start"
-//       />
-//     ),
-//   },
-//   {
-//     title: "Help Center",
-//     url: "#/help",
-//     icon: <HugeiconsIcon icon={HelpCircleIcon} strokeWidth={2} />,
-//   },
-
-//   {
-//     title: "Documentation",
-//     url: "#/documentation",
-//     icon: <HugeiconsIcon icon={BookOpen01Icon} strokeWidth={2} />,
-//   },
-// ]
+export const footerNavLinks: SidebarNavItem[] = [
+  // {
+  //   title: "Settings",
+  //   url: "#/settings",
+  //   icon: Settings01Icon,
+  // },
+  {
+    title: "More",
+    url: "#/help",
+    icon: Hamburger,
+  },
+]
 
 export const navLinks: SidebarNavItem[] = [
   ...navGroups.flatMap((group) => group.items),

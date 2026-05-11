@@ -12,52 +12,70 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/fragments/shadcn/sidebar"
-import { navGroups } from "@/components/app-shared"
+import { footerNavLinks, navGroups } from "@/components/app-shared"
 import { NavUser } from "@/components/nav-user"
 import { Link } from "react-router-dom"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { cn } from "@/lib/utils"
-import { LogoAdaptive } from "./ui/fragments/icons/logo-app"
-import { Search } from "@hugeicons/core-free-icons"
+import { DecorIcon } from "./ui/fragments/icons/decor-icon"
 
 export function AppSidebar() {
   return (
     <Sidebar
       className="static min-h-full *:data-[slot=sidebar-inner]:bg-background"
-      collapsible="offcanvas"
+      collapsible="offExamples"
       variant="sidebar"
     >
+      <DecorIcon className="top-14 left-0 z-50 size-5" position="top-left" />
+      <DecorIcon className="top-14 left-64 z-50 size-5" position="top-left" />
+      <DecorIcon
+        className="bottom-13 left-0 z-50 size-5"
+        position="bottom-left"
+      />
+      <DecorIcon
+        className="bottom-13 left-64 z-50 size-5"
+        position="bottom-left"
+      />
+      {/* <DecorIcon
+        className="bottom-25.5 left-0 z-50 size-5"
+        position="bottom-left"
+      />
+      <DecorIcon
+        className="bottom-25.5 left-64 z-50 size-5"
+        position="bottom-left"
+      /> */}
+      <DecorIcon className="rigth-0 top-14 z-50 size-5" position="top-right" />
       <SidebarHeader className="relative h-14 justify-center px-2 py-0">
         <Link
-          className="flex h-10 w-max items-center justify-start rounded-2xl px-3 hover:bg-muted dark:hover:bg-muted/50"
+          className="flex h-10 w-max items-center justify-center rounded-lg px-3 hover:bg-muted dark:hover:bg-muted/50"
           to="#"
         >
-          {/* <LogoAdaptive className="scale-[.60]" />
-          <h1 className="md:text-1xl font-bold">FoggyNotion</h1> */}
-          <Logo className="h-5" />
+          <Logo className="h-4" />
           <span className="sr-only">Efferd</span>
         </Link>
       </SidebarHeader>
-      <SidebarContent className="gap-13 pt-2">
+
+      <SidebarContent>
         {navGroups.map((group, index) => (
-          <SidebarGroup className="" key={`sidebar-group-${index}`}>
+          <SidebarGroup key={`sidebar-group-${index}`}>
             {group.label && (
               <SidebarGroupLabel className="font-normal">
                 {group.label}
               </SidebarGroupLabel>
             )}
-            <SidebarMenu className="gap-4.5">
+            <SidebarMenu className="">
               {group.items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
+                    className="rounded-none"
                     asChild
                     isActive={item.isActive}
                     tooltip={item.title}
                   >
                     <Link
                       className={cn(
-                        "gap-5 [&>svg]:size-6",
-                        item.isActive && "gap-4 [&>svg]:size-7"
+                        "gap-4 [&>svg]:size-4",
+                        item.isActive && "gap-3 [&>svg]:size-5"
                       )}
                       to={item.url}
                     >
@@ -70,8 +88,8 @@ export function AppSidebar() {
                       />
                       <span
                         className={cn(
-                          item.isActive ? "font-bold" : "font-normal",
-                          "text-lg"
+                          "text-sm",
+                          item.isActive ? "font-bold" : "font-light"
                         )}
                       >
                         {item.title}
@@ -85,23 +103,29 @@ export function AppSidebar() {
         ))}
       </SidebarContent>
       <SidebarFooter className="gap-0 p-0">
-        {/* <SidebarMenu className="border-t p-2">
-					{footerNavLinks.map((item) => (
-						<SidebarMenuItem key={item.title}>
-							<SidebarMenuButton
-								asChild
-								className="text-muted-foreground"
-								isActive={item.isActive}
-								size="sm"
-							>
-								<a href={item.url}>
-									{item.icon}
-									<span>{item.title}</span>
-								</a>
-							</SidebarMenuButton>
-						</SidebarMenuItem>
-					))}
-				</SidebarMenu> */}
+        <SidebarMenu className="p-3">
+          {footerNavLinks.map((item) => (
+            <SidebarMenuItem key={item.title}>
+              <SidebarMenuButton
+                asChild
+                className="gap-4 rounded-none text-muted-foreground"
+                isActive={item.isActive}
+                size="sm"
+              >
+                <Link to={item.url}>
+                  <HugeiconsIcon
+                    // className={cn(
+                    //   item.isActive && "fill-primary text-secondary"
+                    // )}
+                    icon={item.icon}
+                    strokeWidth={2}
+                  />
+                  <span>{item.title}</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          ))}
+        </SidebarMenu>
         <NavUser />
       </SidebarFooter>
     </Sidebar>

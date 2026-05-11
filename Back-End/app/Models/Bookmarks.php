@@ -9,9 +9,7 @@ class Bookmarks extends Model
     //
     protected $table = "bookmarks";
     protected $fillable = [
-    'user_id',
-    'post_id',
+        'user_id',
+        'post_id',
     ];
-
-
 }

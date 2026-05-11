@@ -3,8 +3,9 @@ import { useAppForm } from "./form/use-form"
 import { api } from "@/api/client"
 import type { AuthResponse } from "@/types/auth-types"
 import { setLogin, setLogout } from "@/store/use-auth-store"
-
+import { useQueryClient } from "@tanstack/react-query"
 type useAuthComponent = {
+  onLoading?: () => void
   onSucces: (data: AuthResponse | string) => void | Promise<void>
   onError: (error: Error) => void
 }
@@ -68,18 +69,32 @@ export const useRegisterForm = ({ onSucces, onError }: useAuthComponent) => {
   })
 }
 
-export const useLogout = async ({ onSucces, onError }: useAuthComponent) => {
-  try {
-    const result = await api.post("auth/logout").json<{ message: string }>()
+export const useLogout = () => {
+  const queryClient = useQueryClient()
+    
+  const handleLogout = async ({
+    onSucces,
+    onError,
+    onLoading,
+  }: useAuthComponent) => {
+    try {
+      if (onLoading) {
+        onLoading()
+      }
+      queryClient.clear()
+      const result = await api.post("auth/logout").json<{ message: string }>()
     setLogout()
-    onSucces(result.message)
-    if (!result) {
-      throw new Error("Failed to logout")
+      onSucces(result.message)
+      if (!result) {
+        throw new Error("Failed to logout")
+      }
+      return result
+    } catch (error) {
+      console.log(error)
+      onError(error as Error)
+      throw error
     }
-    return result
-  } catch (error) {
-    console.log(error)
-    onError(error as Error)
-    throw error
   }
+
+  return {handleLogout}
 }

@@ -27,7 +27,7 @@ class PostStoreRequest extends FormRequest
         return [
             'caption' => ['required', 'string', 'max:255'],
             'media' => ['array', 'nullable'],
-            'user_id' => ['required', 'integer', 'exists:users,id'],
+            // 'user_id' => ['required', 'integer', 'exists:users,id'],
             'visibility' => ['required', 'string', Rule::enum(VisibilityEnum::class)],
             'location' => ['nullable', 'string', 'max:255'],
         ];

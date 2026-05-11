@@ -83,7 +83,8 @@ class Posts extends Model
         return $query->whereIn('user_id', $user->following()->select('following_id'));
     }
 
-    public function bookmarks() : BelongsToMany {
-    return $this->belongsToMany(User::class, 'bookmarks', 'post_id', 'user_id');
+    public function bookmarks(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'bookmarks', 'post_id', 'user_id');
     }
 }

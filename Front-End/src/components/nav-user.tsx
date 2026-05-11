@@ -29,38 +29,30 @@ import {
 } from "@hugeicons/core-free-icons"
 import UserAvatar from "./ui/fragments/custom/user-avatar"
 import { useAuthStore } from "@/store/use-auth-store"
-import { useLogout } from "@/hooks/use-auth"
+
 import { toast } from "sonner"
 import { useNavigate } from "react-router-dom"
+import { useLogout } from "@/hooks/use-auth"
 
 export function NavUser() {
   const { isMobile } = useSidebar()
   const user = useAuthStore.getState().user
   const navigate = useNavigate()
+  const { handleLogout } = useLogout()
   return (
     <SidebarMenu className="border-t p-2">
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <SidebarMenuButton
-              size={"lg"}
-              className="gap-3 text-muted-foreground"
-            >
-              <div className="flex flex-1 gap-3 overflow-scroll">
-                <UserAvatar className="size-10" />
-                <div className="flex-col">
-                  <span className="text-base font-medium text-primary">
-                    {user!.name.split(" ")[0]}
-                  </span>
-                  <span className="block text-xs font-thin text-muted-foreground">
-                    {user!.email}
-                  </span>
-                </div>
-              </div>
+            <SidebarMenuButton className="rounded-none text-muted-foreground">
+              <UserAvatar />
+              <span className="text-sm font-medium">
+                {user?.name.split(" ")[0]}
+              </span>
               <HugeiconsIcon
                 icon={ArrowUp01Icon}
                 strokeWidth={2}
-                className="ms-auto size-3!"
+                className="ml-auto size-3!"
               />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
@@ -90,19 +82,23 @@ export function NavUser() {
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-              onSelect={() =>
-                useLogout({
+              onSelect={() => {
+                handleLogout({
+                  onLoading: () => {
+                    toast.loading("Log Out...", { id: "log-out" })
+                  },
                   onSucces: () => {
                     navigate("/login")
-                    toast.success("Log Out Succes!")
+                    toast.success("Log Out Success!", { id: "log-out" })
                   },
                   onError: (error) => {
-                    toast.error("Log Out Succes!", {
+                    toast.error("Log Out Failed!", {
+                      id: "log-out",
                       description: error.message,
                     })
                   },
                 })
-              }
+              }}
               variant="destructive"
             >
               <HugeiconsIcon icon={Logout02Icon} strokeWidth={2} />

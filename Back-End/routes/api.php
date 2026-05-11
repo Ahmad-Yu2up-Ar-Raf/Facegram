@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 use App\Http\Controllers\Auth\RegisteredUserController;
-
+use App\Http\Controllers\BookmarksController;
 use App\Http\Controllers\FollowersController;
 
 Route::prefix('v1')->group(function () {
@@ -60,26 +60,39 @@ Route::prefix('v1')->group(function () {
             Route::delete('/{id}/unfollow', [FollowersController::class, 'destroy'])->name('follow.destroy');
         });
     });
-
+    Route::get('/bookmarks', [BookmarksController::class, 'index'])->middleware(['auth:sanctum'])->name('post.bookmarks');
 
     Route::prefix('posts')->middleware('auth:sanctum')->group(function () {
 
-
+        // CRUD Post
         Route::get('/feeds', [PostsController::class, 'feeds'])->name('posts.feeds');
         Route::post('/', [PostsController::class, 'store'])->name('posts.store');
         Route::put('/{id}', [PostsController::class, 'update'])->name('posts.update');
-        Route::delete('/{id}', [PostsController::class, 'destroy'])->name('posts.destoy');
-        Route::post('/{id}/reposts', [RepostsController::class, 'store'])->name('reposts.store');
-        Route::delete('/{id}/reposts', [RepostsController::class, 'destroy'])->name('reposts.destroy');
-
-        Route::get('/{id}/reposts', [RepostsController::class, 'reposter'])->name('post.reposts');
-        Route::get('/{id}/likes', [LikesController::class, 'liker'])->name('post.likes');
-
-
-
-        Route::post('/{id}/likes', [LikesController::class, 'store'])->name('likes.store');
-        Route::delete('/{id}/likes', [LikesController::class, 'destroy'])->name('likes.destroy');
         Route::get('/', [PostsController::class, 'index'])->name('posts.index');
+        Route::delete('/{id}', [PostsController::class, 'destroy'])->name('posts.destoy');
+
+
+        // Repost API
+        Route::post('/{id}/reposts', [RepostsController::class, 'store'])->name('post.reposts.store');
+        Route::delete('/{id}/reposts', [RepostsController::class, 'destroy'])->name('post.reposts.destroy');
+        Route::get('/{id}/reposts', [RepostsController::class, 'reposter'])->name('post.reposts');
+
+
+        // Bookmarks API
+
+        Route::post('/{id}/bookmarks', [BookmarksController::class, 'store'])->name('post.bookmarks.store');
+        Route::delete('/{id}/bookmarks', [BookmarksController::class, 'destroy'])->name('post.bookmarks.destroy');
+        Route::get('/{id}/bookmarks', [BookmarksController::class, 'show'])->name('post.bookmarks.show');
+
+        // Likes API
+        Route::get('/{id}/likes', [LikesController::class, 'liker'])->name('post.likes');
+        Route::post('/{id}/likes', [LikesController::class, 'store'])->name('post.likes.store');
+        Route::delete('/{id}/likes', [LikesController::class, 'destroy'])->name('post.likes.destroy');
+
+
+
+
+        // detail Post
         Route::get('/{id}', [PostsController::class, 'show'])->name('posts.show');
     });
 });
