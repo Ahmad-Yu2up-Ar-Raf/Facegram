@@ -1,15 +1,11 @@
-import {
-  loginSchema,
-  registerSchema,
-  type LoginSchema,
-} from "@/lib/validations/auth-validation"
-import { useAppForm } from "./use-form"
+import { loginSchema, registerSchema } from "@/lib/validations/auth-validation"
+import { useAppForm } from "./form/use-form"
 import { api } from "@/api/client"
 import type { AuthResponse } from "@/types/auth-types"
-import { setLogin } from "@/store/use-auth-store"
+import { setLogin, setLogout } from "@/store/use-auth-store"
 
 type useAuthComponent = {
-  onSucces: (data: AuthResponse) => void | Promise<void>
+  onSucces: (data: AuthResponse | string) => void | Promise<void>
   onError: (error: Error) => void
 }
 
@@ -70,4 +66,20 @@ export const useRegisterForm = ({ onSucces, onError }: useAuthComponent) => {
       }
     },
   })
+}
+
+export const useLogout = async ({ onSucces, onError }: useAuthComponent) => {
+  try {
+    const result = await api.post("auth/logout").json<{ message: string }>()
+    setLogout()
+    onSucces(result.message)
+    if (!result) {
+      throw new Error("Failed to logout")
+    }
+    return result
+  } catch (error) {
+    console.log(error)
+    onError(error as Error)
+    throw error
+  }
 }

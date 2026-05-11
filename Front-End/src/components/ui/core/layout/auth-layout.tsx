@@ -15,6 +15,7 @@ import { LogoAdaptive } from "../../fragments/icons/logo-app"
 import { cn } from "@/lib/utils"
 import { Link } from "react-router-dom"
 import { DecorIcon } from "../../fragments/icons/decor-icon"
+import { Logo } from "@/components/logo"
 
 type AuthLayoutProps = {
   children?: React.ReactNode
@@ -32,7 +33,7 @@ export function AuthLayout({
   children,
   formType,
   loading,
-  title = "Welcome!",
+  title = "Hey Welcome!",
   description,
 }: AuthLayoutProps) {
   const formTypeLabel = formType == "register" ? "Login" : "Register"
@@ -41,14 +42,12 @@ export function AuthLayout({
     <div className="relative w-full overflow-hidden px-4 md:h-screen">
       <div className="relative mx-auto flex min-h-screen w-full max-w-sm flex-col justify-center border-x *:px-6">
         <div className="flex flex-col space-y-6">
-          {/* <div className="absolute top-0 right-1/2 left-1/2 m-auto flex w-full -translate-x-24 transform items-center gap-3 py-4">
-            <LogoAdaptive className="scale-[.70]" />
-            <h1 className="text-lg font-bold">FoggyNotion</h1>
-          </div> */}
-          <LogoAdaptive className="m-auto mb-6" />
-          <div className="space-y-1 text-center">
+          <Link aria-label="Home" className="" to="#">
+            <Logo className="h-4.5" />
+          </Link>
+          <div className="space-y-1">
             <h1 className="text-xl font-semibold tracking-wide">{title}</h1>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-base text-muted-foreground">
               {/* <Link
                 to={"/login"}
                 className={cn(

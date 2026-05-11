@@ -1,4 +1,4 @@
-import { useLoginForm } from "@/hooks/form/use-auth-form"
+import { useLoginForm } from "@/hooks/use-auth"
 
 import { toast } from "sonner"
 import { AuthLayout } from "../layout/auth-layout"

@@ -65,7 +65,7 @@ class LikesController extends Controller
         return response()->json([
 
             'succes' => true,
-            'status'  => count($result['attached']) > 0 ? 'liked' : 'unliked',
+
             'message' => 'succes added likes'
         ]);
     }

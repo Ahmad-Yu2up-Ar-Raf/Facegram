@@ -23,6 +23,7 @@ import { LogoAdaptive } from "../../fragments/icons/logo-app"
 import { DecorIcon } from "../../fragments/icons/decor-icon"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { useTodos } from "@/hooks/user-todo"
+import { Logo } from "@/components/logo"
 
 export function TodoBlock() {
   const [input, setInput] = useState("")
@@ -68,14 +69,12 @@ export function TodoBlock() {
     }
   }
 
-  const isMobile = useIsMobile()
   return (
     <>
       <div className="min m-auto">
         <div className="relative border-b px-6 md:px-0">
-          <header className="relative m-auto flex max-w-xl items-center justify-center gap-4 border-r border-l py-4">
-            <LogoAdaptive className="scale-75" />
-            <h1 className="text-2xl font-bold">FoggyNotion</h1>
+          <header className="relative m-auto flex max-w-xl items-center justify-center gap-2 border-r border-l py-6">
+            <Logo className="h-5" />
             <DecorIcon className="left-0 z-50" position="bottom-left" />
             <DecorIcon className="rigth-0 z-50" position="bottom-right" />
           </header>
@@ -111,7 +110,7 @@ export function TodoBlock() {
           <section
             ref={listRef}
             className={cn(
-              "relative m-auto h-[80dvh] max-w-xl divide-y divide-border border-r border-l"
+              "relative m-auto h-dvh max-w-xl divide-y divide-border border-r border-l"
             )}
           >
             {todos.length > 0 && (
@@ -228,7 +227,7 @@ export function TodoBlock() {
                 </AnimatePresence>
               </>
             )}
-            {todos.length == 0 && !isMobile && (
+            {todos.length == 0 && (
               <Empty className="pt-16">
                 <EmptyHeader>
                   <EmptyMedia variant="icon">

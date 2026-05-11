@@ -1,8 +1,7 @@
-import { TodoBlock } from "@/components/ui/core/blocks/todo-task-blocks"
-import React from "react"
+import HomeBlock from "@/components/ui/core/blocks/home-block"
 
 function HomePage() {
-  return <TodoBlock />
+  return <HomeBlock />
 }
 
 export default HomePage

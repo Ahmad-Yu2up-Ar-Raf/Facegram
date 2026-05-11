@@ -1,4 +1,4 @@
-import { useRegisterForm } from "@/hooks/form/use-auth-form"
+import { useRegisterForm } from "@/hooks/use-auth"
 
 import { useNavigate } from "react-router-dom"
 import { toast } from "sonner"

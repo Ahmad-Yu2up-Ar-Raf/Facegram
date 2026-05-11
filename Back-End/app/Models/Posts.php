@@ -50,7 +50,7 @@ class Posts extends Model
     {
 
 
-        return $query->whereVisibility(VisibilityEnum::Public->value)
+        return $query->whereVisibility(VisibilityEnum::Public->value)->with('user')
             ->withCount(['liker', 'reposter']) // Menghitung jumlah total
             ->withExists(['isLiked as is_liked', 'isReposted as is_reposted']);
     }
@@ -81,5 +81,9 @@ class Posts extends Model
     {
         $user = Auth::user();
         return $query->whereIn('user_id', $user->following()->select('following_id'));
+    }
+
+    public function bookmarks() : BelongsToMany {
+    return $this->belongsToMany(User::class, 'bookmarks', 'post_id', 'user_id');
     }
 }

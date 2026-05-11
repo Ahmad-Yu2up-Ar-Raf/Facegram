@@ -1,19 +1,52 @@
 import HomePage from "@/pages/home-page"
 import LoginPage from "@/pages/login-page"
 import RegisterPage from "@/pages/register-page"
-import { createBrowserRouter } from "react-router-dom"
+import { createBrowserRouter, Navigate, Outlet } from "react-router-dom"
+
+import TodoPage from "@/pages/todo-page"
+import { useAuthStore } from "@/store/use-auth-store"
+import { AppShell } from "@/components/app-shell"
+
+const GuestGuard = () => {
+  const isAuth = useAuthStore.getState().isAuthenticated
+  return isAuth ? <Navigate to={"/"} /> : <Outlet />
+}
+const AuthenticatedGuard = () => {
+  const isAuth = useAuthStore.getState().isAuthenticated
+  return !isAuth ? <Navigate to={"/login"} /> : <Outlet />
+}
 
 export const router = createBrowserRouter([
   {
-    path: "/",
-    element: <HomePage />,
+    children: [
+      {
+        path: "/",
+        element: <AppShell />,
+        children: [
+          {
+            index: true,
+            element: <HomePage />,
+          },
+        ],
+      },
+      {
+        path: "/todos",
+        element: <TodoPage />,
+      },
+    ],
+    element: <AuthenticatedGuard />,
   },
   {
-    path: "/login",
-    element: <LoginPage />,
-  },
-  {
-    path: "/register",
-    element: <RegisterPage />,
+    element: <GuestGuard />,
+    children: [
+      {
+        element: <LoginPage />,
+        path: "/login",
+      },
+      {
+        element: <RegisterPage />,
+        path: "/register",
+      },
+    ],
   },
 ])

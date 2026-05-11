@@ -4,6 +4,7 @@ import type { FormControlProps } from "./form-base"
 
 import { useFieldContext } from "@/hooks/form/use-form"
 import { Input } from "../../shadcn/input"
+import { cn } from "@/lib/utils"
 
 export function FormInput(props: FormControlProps) {
   const field = useFieldContext<string | number>()
@@ -39,7 +40,10 @@ export function FormInput(props: FormControlProps) {
         aria-describedby={isInvalid ? `${field.name}-error` : undefined}
         placeholder={props.placeholder || field.name}
         type={props.type}
-        className={props.className}
+        className={cn(
+          "rounded-none border-0 border-b bg-background [&_input]:border-0 [&_input]:pr-5 [&_input]:pl-13",
+          props.className
+        )}
       />
     </FormBase>
   )
