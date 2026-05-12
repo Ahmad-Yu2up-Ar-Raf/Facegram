@@ -1,12 +1,12 @@
 import { Button } from "@/components/ui/fragments/shadcn/button"
 import { FieldGroup } from "@/components/ui/fragments/shadcn/field"
 import { Spinner } from "@/components/ui/fragments/shadcn/spinner"
-import type { LoginReturnType } from "@/hooks/use-auth"
+import type { loginReturnType } from "@/hooks/use-auth"
 import { Email, Key, Password } from "@hugeicons/core-free-icons"
 import React from "react"
 
 type componentProps = {
-  form: LoginReturnType
+  form: loginReturnType
   isLoading: boolean
 }
 

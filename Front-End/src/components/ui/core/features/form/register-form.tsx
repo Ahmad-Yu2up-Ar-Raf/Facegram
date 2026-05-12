@@ -1,12 +1,12 @@
 import { Button } from "@/components/ui/fragments/shadcn/button"
 import { FieldGroup } from "@/components/ui/fragments/shadcn/field"
 import { Spinner } from "@/components/ui/fragments/shadcn/spinner"
-import type { UseRegisterType } from "@/hooks/use-auth"
+import type { registerReturnType } from "@/hooks/use-auth"
 import { Email, Key, User } from "@hugeicons/core-free-icons"
 import React from "react"
 
 type componentProps = {
-  form: UseRegisterType
+  form: registerReturnType
   isPending: boolean
 }
 

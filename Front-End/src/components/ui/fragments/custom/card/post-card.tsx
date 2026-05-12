@@ -22,8 +22,9 @@ import {
   Share08FreeIcons,
 } from "@hugeicons/core-free-icons"
 import { Button } from "../../shadcn/button"
-
+import NumberFlow from "@number-flow/react"
 import { usePost } from "@/hooks/posts/use-post"
+import MediaItem from "../media-item"
 type componentProps = {
   Post: Post
 }
@@ -76,10 +77,16 @@ const PostCard = ({ Post }: componentProps) => {
     },
   ]
   console.log("Repost Count:", repostCount)
+  const images = Post.media ?? [
+    "https://magazine-resources.tidal.com/uploads/2017/03/VelvetU_1200.jpg",
+    "https://www.billboard.com/wp-content/uploads/media/velvet-underground-bw-1970-billboard-1548.jpg",
+    "https://upload.wikimedia.org/wikipedia/commons/4/49/Velvet_Underground_WLWH_publicity_photo.jpg",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPeuWxMLFj6P30s76MDqUsPMUYJlKGC9PyJg&s",
+  ]
   return (
     <Card
       className={cn(
-        "h-full w-full overflow-visible rounded-none border-b bg-background px-6 py-7 ring-0"
+        "h-fit w-full overflow-visible rounded-none border-b bg-background p-7 ring-0"
       )}
     >
       <CardContent className="flex w-full gap-x-4 overflow-visible p-0">
@@ -87,7 +94,7 @@ const PostCard = ({ Post }: componentProps) => {
           <UserAvatar
             showFollow
             detailUser
-            className="m-0 size-10 rounded-full p-0"
+            className="m-0 size-18 rounded-full p-0"
             user={Post.user}
           />
         </div>
@@ -119,11 +126,28 @@ const PostCard = ({ Post }: componentProps) => {
           </CardHeader>
 
           <CardDescription className="text-sm leading-relaxed font-light text-primary">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Mollitia
-            iste dolor aperiam nulla nesciunt, perferendis perspiciatis debitis
-            libero excepturi veritatis incidunt sint officiis atque nostrum
-            voluptatibus ex asperiores pariatur delectus?
+            {Post.caption}
           </CardDescription>
+
+          <div
+            className={cn(
+              "-flow-col my-4 h-60 overflow-hidden rounded-3xl border border-border",
+
+              images.length > 1 && "grid grid-cols-2"
+            )}
+          >
+            {images.map((image, i) => (
+              <MediaItem
+                key={i}
+                webViewLink={image}
+                className={cn(
+                  "row-span-1 size-full object-cover transition-transform duration-300 group-hover:scale-110",
+                  images.length == 3 && i == 0 && "row-span-2"
+                )}
+              />
+            ))}
+          </div>
+
           <CardFooter className="mt-2.5 flex w-full justify-between px-0">
             <CardAction className="-ml-3 flex w-fit justify-between gap-2 space-x-0 px-0">
               {postActions.map((action, i) => (
@@ -146,7 +170,10 @@ const PostCard = ({ Post }: componentProps) => {
                     icon={action.Icon}
                     className="size-4 text-muted-foreground"
                   />
-                  <p className="text-xs font-light">{action.label}</p>
+                  <NumberFlow
+                    value={action.label}
+                    className="text-xs font-medium text-muted-foreground"
+                  />
                 </Button>
               ))}
             </CardAction>
@@ -160,7 +187,7 @@ const PostCard = ({ Post }: componentProps) => {
                 <HugeiconsIcon
                   icon={Bookmark02FreeIcons}
                   className={cn(
-                    "size-4.25 text-muted-foreground",
+                    "size-4 text-muted-foreground",
                     isBookmark && "fill-sky-600 text-sky-600"
                   )}
                 />
@@ -173,7 +200,7 @@ const PostCard = ({ Post }: componentProps) => {
               >
                 <HugeiconsIcon
                   icon={Share08FreeIcons}
-                  className="size-4.25 text-muted-foreground"
+                  className="size-4 text-muted-foreground"
                 />
                 <p className="sr-only text-[13px] font-light">Share</p>
               </Button>

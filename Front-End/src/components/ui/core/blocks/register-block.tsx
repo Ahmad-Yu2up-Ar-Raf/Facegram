@@ -1,23 +1,14 @@
-import { useRegisterForm } from "@/hooks/use-auth"
+import { useAuth } from "@/hooks/use-auth"
 
-import { useNavigate } from "react-router-dom"
-import { toast } from "sonner"
+ 
 import { AuthLayout } from "../layout/auth-layout"
 import RegisterForm from "../features/form/register-form"
 
 const RegisterBlock = () => {
-  const navigate = useNavigate()
-  const form = useRegisterForm({
-    onSucces() {
-      navigate("/")
-      toast.success("Succes register!")
-    },
-    onError: (error: Error) => {
-      toast.error("Error while register", {
-        description: error.message,
-      })
-    },
-  })
+
+  const { handleRegister } = useAuth()
+
+  const form = handleRegister()
   return (
     <form.Subscribe selector={(state) => state.isSubmitting}>
       {(isSubmitting) => (

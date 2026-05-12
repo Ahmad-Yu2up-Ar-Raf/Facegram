@@ -1,23 +1,12 @@
-import { useLoginForm } from "@/hooks/use-auth"
+import { useAuth } from "@/hooks/use-auth"
 
-import { toast } from "sonner"
 import { AuthLayout } from "../layout/auth-layout"
 import LoginForm from "../features/form/login-form"
-import { useNavigate } from "react-router-dom"
 
 const LoginBlock = () => {
-  const navigate = useNavigate()
-  const form = useLoginForm({
-    onSucces() {
-      navigate("/")
-      toast.success("Login Succes!")
-    },
-    onError: (error: Error) => {
-      toast.error("Failed to login link", {
-        description: error.message,
-      })
-    },
-  })
+  const { handleLogin } = useAuth()
+
+  const form = handleLogin()
   return (
     <form.Subscribe selector={(state) => state.isSubmitting}>
       {(isSubmitting) => (

@@ -35,8 +35,8 @@ export default function UserAvatar({
 }: componentProps & Omit<React.ComponentProps<typeof Avatar>, "alt">) {
   const userData = user ?? useAuthStore.getState().user
 
-  const { handleFollow } = useUser(userData?.id!)
-
+  const { handleFollow } = useUser()
+  const handleFollowUSer = () => handleFollow(userData?.id!, userData?.name!)
   const isFollowed = userData?.is_followed ?? false
   const initial = useInitials()
   return (
@@ -52,27 +52,18 @@ export default function UserAvatar({
           description="Community manager and content creator."
           buttonContent={
             user && (
-              <div className="flex w-full gap-2">
-                <Button size="sm" variant="outline" className="flex-1">
-                  <HugeiconsIcon
-                    icon={BubbleChatIcon}
-                    className="mr-2 h-4 w-4"
-                  />
-                  Message
-                </Button>
-                <Button
-                  onClick={handleFollow}
-                  variant={isFollowed ? "secondary" : "default"}
-                  size="sm"
-                  className="flex-1"
-                >
-                  <HugeiconsIcon
-                    icon={isFollowed ? UserX : UserPlus}
-                    className="mr-2 h-4 w-4"
-                  />
-                  {isFollowed ? "UnFollow" : "Follow"}
-                </Button>
-              </div>
+              <Button
+                onClick={handleFollowUSer}
+                variant={isFollowed ? "secondary" : "default"}
+                size="sm"
+                className="w-full flex-1"
+              >
+                <HugeiconsIcon
+                  icon={isFollowed ? UserX : UserPlus}
+                  className="sr-only mr-2 h-4 w-4"
+                />
+                {isFollowed ? "UnFollow" : "Follow"}
+              </Button>
             )
           }
         />
@@ -86,7 +77,7 @@ export default function UserAvatar({
       )}
       {!isFollowed && showFollow && (
         <Button
-          onClick={handleFollow}
+          onClick={handleFollowUSer}
           size={"icon-xs"}
           variant={"ghost"}
           className="absolute -right-1 -bottom-2 inline-flex cursor-pointer items-center justify-center rounded-full border-[0px] border-background bg-background p-0 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none"

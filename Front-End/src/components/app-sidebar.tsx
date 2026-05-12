@@ -23,27 +23,19 @@ export function AppSidebar() {
   return (
     <Sidebar
       className="static min-h-full *:data-[slot=sidebar-inner]:bg-background"
-      collapsible="offExamples"
       variant="sidebar"
     >
       <DecorIcon className="top-14 left-0 z-50 size-5" position="top-left" />
-      <DecorIcon className="top-14 left-64 z-50 size-5" position="top-left" />
+      <DecorIcon className="top-14 left-48 z-50 size-5" position="top-left" />
       <DecorIcon
         className="bottom-13 left-0 z-50 size-5"
         position="bottom-left"
       />
       <DecorIcon
-        className="bottom-13 left-64 z-50 size-5"
+        className="bottom-13 left-48 z-50 size-5"
         position="bottom-left"
       />
-      {/* <DecorIcon
-        className="bottom-25.5 left-0 z-50 size-5"
-        position="bottom-left"
-      />
-      <DecorIcon
-        className="bottom-25.5 left-64 z-50 size-5"
-        position="bottom-left"
-      /> */}
+  
       <DecorIcon className="rigth-0 top-14 z-50 size-5" position="top-right" />
       <SidebarHeader className="relative h-14 justify-center px-2 py-0">
         <Link
@@ -67,7 +59,6 @@ export function AppSidebar() {
               {group.items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
-                    className="rounded-none"
                     asChild
                     isActive={item.isActive}
                     tooltip={item.title}
@@ -108,7 +99,7 @@ export function AppSidebar() {
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton
                 asChild
-                className="gap-4 rounded-none text-muted-foreground"
+                className="gap-4 text-muted-foreground"
                 isActive={item.isActive}
                 size="sm"
               >

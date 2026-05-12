@@ -1,59 +1,30 @@
 import { api } from "@/api/client"
 import { useQueryClient } from "@tanstack/react-query"
-import type { PostsResponse } from "@/types/posts-type"
+import { toast } from "sonner"
 
-export const useUser = (userId: number) => {
+export const useUser = () => {
   const queryClient = useQueryClient()
-
-  const handleFollow = async () => {
-    // 1. Batalkan query yang sedang berjalan agar tidak bentrok
-    await queryClient.cancelQueries({ queryKey: ["posts"] })
-
-    // 2. Ambil data lama buat jaga-jaga kalau mau rollback (Optional)
-    const previousPosts = queryClient.getQueryData(["posts"])
-
-    // 3. Optimistic Update (Ganti di cache duluan)
-    queryClient.setQueriesData(
-      { queryKey: ["posts"] },
-      (old: PostsResponse | undefined) => {
-        if (!old) return old
-
-        return {
-          ...old,
-          data: {
-            ...old.data,
-            // Kita map array 'data' yang ada di dalem objek 'Data'
-            data: old.data.data.map((post) => {
-              if (post.user.id === userId) {
-                return {
-                  ...post,
-                  user: {
-                    ...post.user,
-                    is_followed: !post.user.is_followed,
-                  },
-                }
-              }
-              return post
-            }),
-          },
-        }
-      }
-    )
-
-    try {
-      // 4. Kirim ke API
-      await api.post(`users/${userId}/follow`)
-
-      // 5. Invalidate biar data bener-bener sinkron sama server di background
+  const handleFollow = async (userId: number, userName: string) => {
+    const followAction = async () => {
+      const result = await api.post(`users/${userId}/follow`).json<{
+        succes: boolean
+        attached: string
+      }>()
       queryClient.invalidateQueries({ queryKey: ["posts"] })
-    } catch (error) {
-      // 6. Kalau gagal, balikin ke data sebelumnya
-      if (previousPosts) {
-        queryClient.setQueryData(["posts"], previousPosts)
-      }
-      console.error("Follow failed:", error)
+
+      return result
     }
+    toast.promise(followAction(), {
+      success: (data) =>
+        `${data.attached ? "Followed" : "Un-Follow"} ${userName}`,
+      loading: "Loading...",
+      error: (err) => {
+        return err.message || "Failed following user"
+      },
+    })
   }
 
-  return { handleFollow }
+  return {
+    handleFollow,
+  }
 }

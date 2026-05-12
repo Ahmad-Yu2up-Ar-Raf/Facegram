@@ -4,97 +4,97 @@ import { api } from "@/api/client"
 import type { AuthResponse } from "@/types/auth-types"
 import { setLogin, setLogout } from "@/store/use-auth-store"
 import { useQueryClient } from "@tanstack/react-query"
-type useAuthComponent = {
-  onLoading?: () => void
-  onSucces: (data: AuthResponse | string) => void | Promise<void>
-  onError: (error: Error) => void
-}
+import { toast } from "sonner"
+import { useNavigate } from "react-router-dom"
 
-export type LoginReturnType = ReturnType<typeof useLoginForm>
+export type useAuthType = ReturnType<typeof useAuth>
 
-export const useLoginForm = ({ ...props }: useAuthComponent) => {
-  return useAppForm({
-    validators: {
-      onSubmit: loginSchema,
-    },
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-    onSubmit: async ({ value: data }) => {
-      try {
-        const result = await api
+export type loginReturnType = ReturnType<useAuthType["handleLogin"]>
+export type registerReturnType = ReturnType<useAuthType["handleRegister"]>
+export const useAuth = () => {
+  const queryClient = useQueryClient()
+  const navigate = useNavigate()
+  const handleLogin = () => {
+    return useAppForm({
+      validators: {
+        onSubmit: loginSchema,
+      },
+      defaultValues: {
+        email: "",
+        password: "",
+      },
+      onSubmit: async ({ value: data }) => {
+        const login = api
           .post("auth/login", { json: data })
           .json<AuthResponse>()
-        setLogin(result)
-        props.onSucces(result)
-      } catch (error) {
-        const message = error instanceof Error ? error.message : error
-        console.log(message)
-        props.onError(error as Error)
-        throw error
-      }
-    },
-  })
-}
 
-export type UseRegisterType = ReturnType<typeof useRegisterForm>
+        toast.promise(login, {
+          success: (data) => {
+            navigate("/")
+            return `Welcome back ${data.user.name}`
+          },
+          error: (err) => {
+            return err.message || "Error login"
+          },
 
-export const useRegisterForm = ({ onSucces, onError }: useAuthComponent) => {
-  return useAppForm({
-    validators: {
-      onSubmit: registerSchema,
-    },
-    defaultValues: {
-      name: "",
-      email: "",
-      password: "",
-    },
-    onSubmit: async ({ value: data }) => {
-      try {
-        const result = await api
+          loading: "Login...",
+        })
+
+        await login
+      },
+    })
+  }
+  const handleRegister = () => {
+    return useAppForm({
+      validators: {
+        onSubmit: registerSchema,
+      },
+      defaultValues: {
+        name: "",
+        email: "",
+        password: "",
+      },
+      onSubmit: async ({ value: data }) => {
+        const promise = api
           .post("auth/register", { json: data })
           .json<AuthResponse>()
 
-        setLogin(result)
+        toast.promise(promise, {
+          loading: "Login...",
+          success: (data) => {
+            setLogin(data)
+            navigate("/")
+            return `Welcome back ${data.user.name}`
+          },
+          error: (err) => err.message,
+        })
 
-        onSucces(result)
-      } catch (error) {
-        const message = error instanceof Error ? error.message : error
-        console.log(message)
-        onError(error as Error)
-        throw error
-      }
-    },
-  })
-}
-
-export const useLogout = () => {
-  const queryClient = useQueryClient()
-    
-  const handleLogout = async ({
-    onSucces,
-    onError,
-    onLoading,
-  }: useAuthComponent) => {
-    try {
-      if (onLoading) {
-        onLoading()
-      }
+        await promise
+      },
+    })
+  }
+  const handleLogout = async () => {
+    const logoutAction = async () => {
       queryClient.clear()
       const result = await api.post("auth/logout").json<{ message: string }>()
-    setLogout()
-      onSucces(result.message)
+      setLogout()
+
       if (!result) {
         throw new Error("Failed to logout")
       }
+
+      navigate("/login")
       return result
-    } catch (error) {
-      console.log(error)
-      onError(error as Error)
-      throw error
     }
+
+    return toast.promise(logoutAction(), {
+      loading: "LogOut...",
+      success: "Succes Logout!",
+      error: (err) => {
+        return err.message || "Failed to log out"
+      },
+    })
   }
 
-  return {handleLogout}
+  return { handleLogout, handleLogin, handleRegister }
 }

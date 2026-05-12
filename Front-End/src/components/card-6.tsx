@@ -39,7 +39,7 @@ const Icons = () => (
 
 export const Card_6 = () => {
   return (
-    <Card className="relative rounded-none shadow-none">
+    <Card className="relative   shadow-none">
       <Icons />
       <CardHeader>
         <CardTitle>{Placeholder.title}</CardTitle>

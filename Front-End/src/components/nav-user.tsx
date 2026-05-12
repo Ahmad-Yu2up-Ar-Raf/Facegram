@@ -28,23 +28,23 @@ import {
   Logout02Icon,
 } from "@hugeicons/core-free-icons"
 import UserAvatar from "./ui/fragments/custom/user-avatar"
-import { useAuthStore } from "@/store/use-auth-store"
 
 import { toast } from "sonner"
 import { useNavigate } from "react-router-dom"
-import { useLogout } from "@/hooks/use-auth"
+import { useAuth } from "@/hooks/use-auth"
+import { useAuthStore } from "@/store/use-auth-store"
 
 export function NavUser() {
   const { isMobile } = useSidebar()
   const user = useAuthStore.getState().user
   const navigate = useNavigate()
-  const { handleLogout } = useLogout()
+  const { handleLogout } = useAuth()
   return (
     <SidebarMenu className="border-t p-2">
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <SidebarMenuButton className="rounded-none text-muted-foreground">
+            <SidebarMenuButton className="text-muted-foreground">
               <UserAvatar />
               <span className="text-sm font-medium">
                 {user?.name.split(" ")[0]}
@@ -81,26 +81,7 @@ export function NavUser() {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem
-              onSelect={() => {
-                handleLogout({
-                  onLoading: () => {
-                    toast.loading("Log Out...", { id: "log-out" })
-                  },
-                  onSucces: () => {
-                    navigate("/login")
-                    toast.success("Log Out Success!", { id: "log-out" })
-                  },
-                  onError: (error) => {
-                    toast.error("Log Out Failed!", {
-                      id: "log-out",
-                      description: error.message,
-                    })
-                  },
-                })
-              }}
-              variant="destructive"
-            >
+            <DropdownMenuItem onSelect={handleLogout} variant="destructive">
               <HugeiconsIcon icon={Logout02Icon} strokeWidth={2} />
               Log out
             </DropdownMenuItem>

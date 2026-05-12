@@ -244,7 +244,7 @@ export function TodoBlock() {
                       inputRef.current?.focus()
                     }}
                     variant="outline"
-                    className="rounded-none"
+               
                     size="sm"
                   >
                     Create Task

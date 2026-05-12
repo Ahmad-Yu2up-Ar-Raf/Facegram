@@ -60,17 +60,10 @@ export interface NativeHoverCardProps {
 }
 
 const imageSizeVariants = {
-  sm: "size-12",
+  sm: "size-10",
   md: "w-24 h-24",
   lg: "w-32 h-32",
   xl: "w-40 h-40",
-}
-
-const cardWidthVariants = {
-  sm: "w-95",
-  md: "w-72",
-  lg: "w-80",
-  xl: "w-96",
 }
 
 const getInitials = (name: string) => {
@@ -121,7 +114,7 @@ export function UserAvatarHover({
 
   return (
     <motion.div
-      className={cn("hit-area-1  relative inline-block", className)}
+      className={cn("hit-area-1 relative inline-block", className)}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       initial={false}
