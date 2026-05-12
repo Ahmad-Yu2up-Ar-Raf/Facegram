@@ -35,6 +35,7 @@ export interface Post {
   is_bookmarked: boolean
   is_liked: boolean
   is_reposted: boolean
+
   user: User
 }
 

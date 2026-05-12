@@ -1,5 +1,5 @@
 import { FetchPost } from "@/hooks/posts/use-post"
- 
+
 import type { Post } from "@/types/posts-type"
 import { AppHeader } from "@/components/app-header"
 import PostCard from "../../fragments/custom/card/post-card"

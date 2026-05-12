@@ -50,9 +50,13 @@ class Posts extends Model
     {
 
 
-        return $query->whereVisibility(VisibilityEnum::Public->value)->with('user')
-            ->withCount(['liker', 'reposter']) // Menghitung jumlah total
-            ->withExists(['isLiked as is_liked', 'isReposted as is_reposted', 'isBookmarked as is_bookmarked']);
+        return $query->whereVisibility(VisibilityEnum::Public->value)->with(['user' => function($q) {
+            $q->withExists(['followers as is_followed' => function($f) {
+                $f->where('follower_id', Auth::id());
+            }]);
+        }])
+            ->withCount(['liker', 'reposter'])
+            ->withExists(['isLiked as is_liked', 'isReposted as is_reposted', 'isBookmarked as is_bookmarked'  ]);
     }
 
     public function scopeForWebsite(Builder $query): Builder
@@ -94,4 +98,13 @@ class Posts extends Model
         $userId = Auth::id();
         return $this->bookmarks()->where('user_id', $userId);
     }
+
+// public function isFollowed()
+// {
+//     $userId = Auth::id();
+//     // Kita cek ke relasi user si pembuat post, apakah followers-nya mengandung ID kita
+//     return $this->user()->whereHas('followers', function($query) use ($userId) {
+//         $query->where('follower_id', $userId);
+//     });
+// }
 }

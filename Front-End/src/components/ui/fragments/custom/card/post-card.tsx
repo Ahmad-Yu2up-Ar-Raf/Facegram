@@ -79,13 +79,14 @@ const PostCard = ({ Post }: componentProps) => {
   return (
     <Card
       className={cn(
-        "h-full w-full rounded-none border-b bg-background px-6 py-7 ring-0"
+        "h-full w-full overflow-visible rounded-none border-b bg-background px-6 py-7 ring-0"
       )}
     >
-      <CardContent className="flex w-full gap-x-4 p-0">
+      <CardContent className="flex w-full gap-x-4 overflow-visible p-0">
         <div className="">
           <UserAvatar
             showFollow
+            detailUser
             className="m-0 size-10 rounded-full p-0"
             user={Post.user}
           />
