@@ -52,7 +52,7 @@ class Posts extends Model
 
         return $query->whereVisibility(VisibilityEnum::Public->value)->with('user')
             ->withCount(['liker', 'reposter']) // Menghitung jumlah total
-            ->withExists(['isLiked as is_liked', 'isReposted as is_reposted']);
+            ->withExists(['isLiked as is_liked', 'isReposted as is_reposted', 'isBookmarked as is_bookmarked']);
     }
 
     public function scopeForWebsite(Builder $query): Builder
@@ -86,5 +86,12 @@ class Posts extends Model
     public function bookmarks(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'bookmarks', 'post_id', 'user_id');
+    }
+
+    public function isBookmarked()
+    {
+
+        $userId = Auth::id();
+        return $this->bookmarks()->where('user_id', $userId);
     }
 }

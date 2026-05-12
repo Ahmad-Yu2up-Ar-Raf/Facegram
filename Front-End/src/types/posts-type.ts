@@ -32,6 +32,7 @@ export interface Post {
   visibility: string
   liker_count: number
   reposter_count: number
+  is_bookmarked: boolean
   is_liked: boolean
   is_reposted: boolean
   user: User

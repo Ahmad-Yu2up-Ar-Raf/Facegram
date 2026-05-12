@@ -1,26 +1,38 @@
 import { api } from "@/api/client"
 import type { Post, PostsResponse } from "@/types/posts-type"
-import { useQuery, type UseQueryResult } from "@tanstack/react-query"
+import { useQuery } from "@tanstack/react-query"
 import { useState } from "react"
 
- export  const FetchPost = () => {
-    return useQuery({
-      queryKey: ["posts"],
-      queryFn: async () => api.get("posts").json<PostsResponse>(),
-    })
-  }
+export const FetchPost = () => {
+  return useQuery({
+    queryKey: ["posts"],
+    queryFn: async () => api.get("posts").json<PostsResponse>(),
+  })
+}
 
 export const usePost = (Post: Post) => {
   const [isLiked, setLiked] = useState<boolean>(Post.is_liked)
   const [isReposted, setRepost] = useState<boolean>(Post.is_reposted)
+  const [isBookmark, setBookmark] = useState<boolean>(Post.is_bookmarked)
 
   const [likeCount, setLikeCount] = useState<number>(Post.liker_count)
   const [repostCount, setRepostCount] = useState<number>(Post.reposter_count)
 
+  const handleBookmark = async () => {
+    try {
+      setBookmark(!isBookmark)
+      const result = await api
+        .post(`posts/${Post.id}/bookmarks`)
+        .json<{ message: string }>()
 
+      return result
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  }
 
   const handdleToggleLike = async () => {
-    
     setLiked(!isLiked)
 
     if (!isLiked) {
@@ -54,5 +66,7 @@ export const usePost = (Post: Post) => {
     isReposted,
     likeCount,
     repostCount,
+    handleBookmark,
+    isBookmark,
   }
 }

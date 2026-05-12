@@ -22,8 +22,7 @@ import {
   Share08FreeIcons,
 } from "@hugeicons/core-free-icons"
 import { Button } from "../../shadcn/button"
-import { useCallback, useState } from "react"
-import { api } from "@/api/client"
+
 import { usePost } from "@/hooks/posts/use-post"
 type componentProps = {
   Post: Post
@@ -44,6 +43,8 @@ const PostCard = ({ Post }: componentProps) => {
     likeCount,
     isReposted,
     repostCount,
+    handleBookmark,
+    isBookmark,
     handdleToggleLike,
     handdleToggleRepost,
   } = usePost(Post)
@@ -110,7 +111,7 @@ const PostCard = ({ Post }: componentProps) => {
             >
               <HugeiconsIcon
                 icon={MoreHorizontal}
-                className="size-[17px] text-muted-foreground"
+                className="size-4.25 text-muted-foreground"
               />
               <p className="sr-only text-[13px] font-light">Saved</p>
             </Button>
@@ -150,13 +151,17 @@ const PostCard = ({ Post }: componentProps) => {
             </CardAction>
             <div className="">
               <Button
-                className="gap-1 text-muted-foreground"
+                className="gap-1 text-muted-foreground hover:bg-sky-500/10 hover:text-sky-500 dark:hover:bg-sky-500/10 hover:[&_svg]:text-sky-500"
                 variant={"ghost"}
+                onClick={handleBookmark}
                 size={"icon-sm"}
               >
                 <HugeiconsIcon
                   icon={Bookmark02FreeIcons}
-                  className="size-[17px] text-muted-foreground"
+                  className={cn(
+                    "size-4.25 text-muted-foreground",
+                    isBookmark && "fill-sky-600 text-sky-600"
+                  )}
                 />
                 <p className="sr-only text-[13px] font-light">Saved</p>
               </Button>
@@ -167,7 +172,7 @@ const PostCard = ({ Post }: componentProps) => {
               >
                 <HugeiconsIcon
                   icon={Share08FreeIcons}
-                  className="size-[17px] text-muted-foreground"
+                  className="size-4.25 text-muted-foreground"
                 />
                 <p className="sr-only text-[13px] font-light">Share</p>
               </Button>

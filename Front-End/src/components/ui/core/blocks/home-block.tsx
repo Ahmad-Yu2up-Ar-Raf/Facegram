@@ -1,6 +1,5 @@
-import { FetchPost, usePost } from "@/hooks/posts/use-post"
-import React from "react"
-import { Spinner } from "../../fragments/shadcn/spinner"
+import { FetchPost } from "@/hooks/posts/use-post"
+ 
 import type { Post } from "@/types/posts-type"
 import { AppHeader } from "@/components/app-header"
 import PostCard from "../../fragments/custom/card/post-card"
